@@ -1,0 +1,7 @@
+.slide-img {
+  min-width: 90vw;
+  max-height: 70vh;
+  margin: auto;
+  object-fit: cover;
+  transition: opacity 1s ease-in forwards;
+}
