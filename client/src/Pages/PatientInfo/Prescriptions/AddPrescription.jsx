@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
 import InputText from '../../../components/InputText/InputText'
+import AddMedications from './AddMedications'
+import Medications from './Medications'
 
 const prescription = [
   {
@@ -50,6 +52,22 @@ const AddPrescription = (props) => {
     followUp: Date.now(),
     notes: '',
   })
+  const [medications, setMedications] = useState([])
+
+  const addMedication = (medication) => {
+    if (medication.name.trim() === '') {
+      alert('Please add medication')
+      return
+    }
+    setMedications((prev) => [...prev, medication])
+  }
+
+  const removeMedication = (targetedIndex) => {
+    const updatedMedications = medications.filter(
+      (medication, index) => index !== targetedIndex,
+    )
+    setMedications([...updatedMedications])
+  }
 
   const handleChange = (event) => {
     setFormData((prev) => ({
@@ -60,25 +78,42 @@ const AddPrescription = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    console.table(formData)
+    console.table(medications)
   }
   return (
     <form className="flex flex-col w-4/5" onSubmit={handleSubmit}>
-      <InputText
-        name="diagnosis"
-        value={formData.diagnosis}
-        onChange={handleChange}
-      />
-      <div className="flex flex-col w-3/5 my-10 gap-y-4">
+      <div className="flex flex-col my-10 gap-y-4">
+        <InputText
+          name="diagnosis"
+          value={formData.diagnosis}
+          onChange={handleChange}
+        />
+
         <div className="flex flex-col gap-2">
           <label htmlFor="complaints">Complaints:</label>
           <textarea
             id="complaints"
+            name="complaints"
             className="border-2"
             value={formData.complaints}
             onChange={handleChange}
             rows="5"
           ></textarea>
         </div>
+
+        {/* medications */}
+        <div className="flex flex-col gap-8 border-2 border-dark py-4 px-2 rounded-lg">
+          <h1 className="font-bold text-lg">
+            Medication details(should be add one by one):
+          </h1>
+          <Medications
+            medications={medications}
+            removeMedication={removeMedication}
+          />
+          <AddMedications addMedication={addMedication} />
+        </div>
+
         <div className="flex flex-col gap-2">
           <label htmlFor="followup">Follow up:</label>
           <input
@@ -89,6 +124,18 @@ const AddPrescription = (props) => {
             value={formData.followUp}
             onChange={handleChange}
           />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="notes">Notes:</label>
+          <textarea
+            id="notes"
+            name="notes"
+            className="border-2"
+            value={formData.notes}
+            onChange={handleChange}
+            rows="5"
+          ></textarea>
         </div>
       </div>
 
