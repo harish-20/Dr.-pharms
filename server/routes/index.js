@@ -1,17 +1,21 @@
 const router = require('express').Router()
 
+const authRoute = require('./authRoute')
 const doctorsRoute = require('./doctorsRoute')
 const patientsRoute = require('./patient')
 const prescriptionRoute = require('./prescriptionRoute')
-const chatRouter = require('./chatRoute')
-const doctorsFileRouter = require('../files/doctors')
-const patientFileRouter = require('../files/patients')
+const chatRoute = require('./chatRoute')
 
+const doctorsFileRoute = require('../files/doctors')
+const patientFileRoute = require('../files/patients')
+
+router.use('/auth', authRoute)
 router.use('/doctors', doctorsRoute)
 router.use('/patients', patientsRoute)
 router.use('/prescriptions', prescriptionRoute)
-router.use('/chats', chatRouter)
-router.use('/upload/doctor', doctorsFileRouter)
-router.use('/upload/patient', patientFileRouter)
+router.use('/chats', chatRoute)
+
+router.use('/upload/doctor', doctorsFileRoute)
+router.use('/upload/patient', patientFileRoute)
 
 module.exports = router

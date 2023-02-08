@@ -12,7 +12,6 @@ import Info from '../../../components/Info/Info'
 // weight : 80
 
 const BioDetails = (props) => {
-  console.log(props)
   return (
     <div className="w-2/3 mb-10">
       <Info heading="Name" info={props.name} />
@@ -20,7 +19,7 @@ const BioDetails = (props) => {
       <Info heading="Age" info={props.age + ' Years'} />
       <Info heading="Height" info={props.height + ' CM'} />
       <Info heading="Weight" info={props.weight + ' KGs'} />
-      <Info heading="Blood type" info={props.bloodType + 've'} />
+      <Info heading="Blood type" info={props.bloodType} />
       <Info heading="Medical history" info={props.medicalHistory.join(', ')} />
       <button
         className="w-full py-2 mt-4 bg-blue font-bold text-white rounded-lg"

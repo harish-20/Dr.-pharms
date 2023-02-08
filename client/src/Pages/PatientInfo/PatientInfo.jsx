@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+
+import { getPatient } from '../../API/patient'
+
 import BioDetails from './Profile/BioDetails'
 import InfoNavbar from './Profile/InfoNavbar'
 import OtherDetails from './Profile/OtherDetails'
 import Prescriptions from './Prescriptions/Prescriptions'
 import Profile from './Profile/Profile'
 import EditProfile from './EditProfile/EditProfile'
+import BigText from '../../components/BigText/BigText'
 
 const patientInfo = {
   _id: '63d3f7fa484816213f6e3eb0',
@@ -158,39 +163,39 @@ const prescription = [
 ]
 
 const Patient = () => {
-  const {
-    name,
-    image,
-    contact,
-    email,
-    age,
-    gender,
-    height,
-    weight,
-    bloodType,
-    medicalHistory,
-    prescriptions,
-    insurance,
-    allergies,
-  } = patientInfo
+  const [heading, setHeading] = useState('Bio details')
+  const [isEdit, setIsEdit] = useState(false)
+  const [patient, setPatient] = useState()
+
+  const { id } = useParams()
+
+  useEffect(() => {
+    const fetch = async () => {
+      const result = await getPatient(id).then((res) => res)
+      setPatient(result)
+    }
+
+    fetch()
+  }, [])
+
+  if (!patient) {
+    return <h1>loading</h1>
+  }
 
   const categories = {
     'Bio details': {
-      name,
-      email,
-      age,
-      gender,
-      bloodType,
-      height,
-      weight,
-      medicalHistory,
+      name: patient.name,
+      email: patient.email,
+      age: patient.age,
+      gender: patient.gender,
+      bloodType: patient.bloodType,
+      height: patient.height,
+      weight: patient.weight,
+      medicalHistory: patient.medicalHistory,
     },
-    'Prescriptions List': prescriptions,
-    Others: { insurance, allergies },
+    'Prescriptions List': prescription,
+    Others: { insurance: patient.insurance, allergies: patient.allergies },
   }
-
-  const [heading, setHeading] = useState(Object.keys(categories)[0])
-  const [isEdit, setIsEdit] = useState(false)
 
   const detailsType = {
     'Bio details': (
@@ -199,16 +204,23 @@ const Patient = () => {
         onEdit={() => setIsEdit(true)}
       />
     ),
-    'Prescriptions List': <Prescriptions prescription={prescription} />,
+    'Prescriptions List': (
+      <Prescriptions prescription={prescription} patient={patient} />
+    ),
     Others: <OtherDetails {...categories['Others']} />,
   }
+
+  if (!patient) {
+    return <BigText>Loading</BigText>
+  }
+
   return (
-    <div className="w-full my-10 mx-auto flex flex-col items-center bg-white rounded-xl md:w-3/5">
+    <section className="w-full my-10 mx-auto flex flex-col items-center bg-white rounded-xl md:w-3/5">
       {isEdit ? (
-        <EditProfile onCancel={() => setIsEdit(false)} />
+        <EditProfile patient={patient} onCancel={() => setIsEdit(false)} />
       ) : (
         <>
-          <Profile name={name} image={image} />
+          <Profile name={patient.name} image={patient.image} />
           <InfoNavbar
             heading={heading}
             headings={Object.keys(categories)}
@@ -217,7 +229,7 @@ const Patient = () => {
           {detailsType[heading]}
         </>
       )}
-    </div>
+    </section>
   )
 }
 

@@ -41,7 +41,7 @@ const Doctors = () => {
   )
 
   return (
-    <div className="container md:w-[80vw] mx-auto mt-10">
+    <section className="container md:w-[80vw] mx-auto mt-10">
       <CardContainer heading="Most Rated Doctor">
         {mostRated.map((doc) => (
           <Card key={doc.name} {...doc} />
@@ -69,7 +69,7 @@ const Doctors = () => {
           <Card key={doc.name} {...doc} />
         ))}
       </CardContainer>
-    </div>
+    </section>
   )
 }
 

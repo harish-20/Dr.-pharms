@@ -1,14 +1,27 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { currentUserActions } from '../../redux/slices/currentUser'
 import CTA from '../CTA/CTA'
 import Logo from '../Logo/Logo'
 import Profile from './Profile'
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.currentUser)
+
   const chats = 0
+
+  const handleLogout = () => {
+    const confirm = window.confirm('Do you want to log out?')
+    if (confirm) {
+      dispatch(currentUserActions.resetUser())
+    }
+  }
 
   const getClass = ({ isActive }) =>
     `hover:text-blue ${isActive ? 'text-blue' : ''}`
+
   return (
     <nav className="flex items-center bg-white justify-around h-20 shadow-lg">
       <Logo />
@@ -28,7 +41,19 @@ const Header = () => {
           Chats(<span>{chats}</span>)
         </NavLink>
       </div>
-      {true ? <Profile userType="patient" name="harish" /> : <CTA />}
+      {currentUser.isLoggedIn ? (
+        <>
+          <Profile />
+          <button
+            className="px-6 py-2 text-white font-semibold bg-red-600 rounded-lg hover:bg-red-700"
+            onClick={handleLogout}
+          >
+            Log out
+          </button>
+        </>
+      ) : (
+        <CTA />
+      )}
     </nav>
   )
 }

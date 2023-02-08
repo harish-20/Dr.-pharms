@@ -1,58 +1,25 @@
 import React from 'react'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
+import { addPrescription } from '../../../API/prescription'
+
 import InputText from '../../../components/InputText/InputText'
 import AddMedications from './AddMedications'
 import Medications from './Medications'
-
-const prescription = [
-  {
-    date: {
-      $date: {
-        $numberLong: '1667304000000',
-      },
-    },
-    complaints: 'Chest pain and shortness of breath',
-    diagnosis: 'fever',
-    medications: [
-      {
-        name: 'Amoxicillin',
-        dosage: '500mg',
-        frequency: 'Twice a day',
-        duration: '10 days',
-        endDate: '2022-11-11T12:00:00Z',
-        morning: {
-          beforeFood: true,
-        },
-        afternoon: {
-          beforeFood: false,
-        },
-        night: {
-          beforeFood: true,
-        },
-        _id: {
-          $oid: '63d40aa977223de7019c51ad',
-        },
-      },
-    ],
-    followUp: {
-      $date: {
-        $numberLong: '1668513600000',
-      },
-    },
-    notes: 'Patient is also advised to get a chest X-ray next week.',
-    __v: 0,
-    _id: 1,
-  },
-]
 
 const AddPrescription = (props) => {
   const [formData, setFormData] = useState({
     complaints: '',
     diagnosis: '',
-    followUp: Date.now(),
+    followUp: '2000-10-20',
     notes: '',
   })
   const [medications, setMedications] = useState([])
+
+  const currentUser = useSelector((state) => state.currentUser)
+  const navigate = useNavigate()
 
   const addMedication = (medication) => {
     if (medication.name.trim() === '') {
@@ -78,8 +45,20 @@ const AddPrescription = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.table(formData)
-    console.table(medications)
+    const updatedFormData = {
+      ...formData,
+      doctor: currentUser.user,
+      patient: props.patient,
+      medications,
+    }
+    const result = addPrescription(updatedFormData)
+    console.log(result)
+    if (result) {
+      alert('Prescription added')
+      navigate('/')
+    } else {
+      alert('Something went wrong.')
+    }
   }
   return (
     <form className="flex flex-col w-4/5" onSubmit={handleSubmit}>

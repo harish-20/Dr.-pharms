@@ -25,7 +25,7 @@ const Medications = (props) => {
               <th className="border-2 border-slate-500 text-xl font-semibold text-slate-800 p-2">
                 Remove
               </th>
-            )}{' '}
+            )}
           </tr>
           {props.medications.map((medication, index) => {
             const endDateRedable = new Date(medication.endDate)

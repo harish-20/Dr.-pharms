@@ -6,6 +6,10 @@ const chatSchema = new Schema(
     senderId: String,
     receiverId: String,
     text: String,
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 )

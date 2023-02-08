@@ -4,14 +4,11 @@ import InputText from '../../../components/InputText/InputText'
 
 const AddMedications = (props) => {
   const [formData, setFormData] = useState({
-    name: 'Amoxicillin',
-    dosage: '500mg',
-    frequency: 'Twice a day',
-    duration: '10 days',
-    endDate: Date.now(),
-    morning: false,
-    afternoon: false,
-    night: false,
+    name: '',
+    dosage: '',
+    frequency: '',
+    duration: '',
+    endDate: '2000-10-20',
   })
 
   const handleChange = (event) => {

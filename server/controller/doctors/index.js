@@ -34,10 +34,11 @@ const addDoctor = async (req, res) => {
       password,
       contact,
       qualifications,
-      specilities,
+      specialties,
       yearsOfExperience,
       hospital,
       education,
+      license,
     } = req.body
     const image = ''
 
@@ -48,10 +49,11 @@ const addDoctor = async (req, res) => {
       password,
       contact,
       qualifications,
-      specilities,
+      specialties,
       yearsOfExperience,
       hospital,
       education,
+      license,
     })
 
     const result = await doctor.save()

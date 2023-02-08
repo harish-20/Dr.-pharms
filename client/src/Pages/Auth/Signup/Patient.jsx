@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { patientSignup } from '../../../API/patient'
 import InputText from '../../../components/InputText/InputText'
 
 const Patient = () => {
@@ -15,14 +18,22 @@ const Patient = () => {
     weight: '',
   })
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-    console.log(formData)
+  const navigate = useNavigate()
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Submit formData to your server here
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const result = await patientSignup(formData)
+    if (result) {
+      alert('User has been created now you can login')
+      navigate('/')
+    } else {
+      alert('Enter valid details')
+    }
   }
 
   return (

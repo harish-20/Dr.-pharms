@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { doctorSignup } from '../../../API/doctor'
 import InputText from '../../../components/InputText/InputText'
 
 const Doctor = () => {
@@ -8,21 +11,34 @@ const Doctor = () => {
     password: '',
     confirmPassword: '',
     contact: '',
-    specilities: '',
-    qualification: '',
+    specialties: '',
+    qualifications: '',
     yearsOfExperience: '',
-    hosptial: '',
+    hospital: '',
     education: '',
+    license: '',
   })
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value })
     console.log(formData)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Submit formData to your server here
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const updatedFormData = {
+      ...formData,
+      specialties: formData.specialties.split(',').map((text) => text.trim()),
+    }
+    console.log(updatedFormData)
+    const result = await doctorSignup(updatedFormData)
+    alert('Id has been created login now')
+    if (result) {
+      navigate('/')
+    }
   }
 
   return (
@@ -58,15 +74,15 @@ const Doctor = () => {
         onChange={handleChange}
       />
       <InputText
-        name="specilities"
-        value={formData.specilities}
+        name="specialties"
+        value={formData.specialties}
         onChange={handleChange}
         description="add comma between two specility Eg.skin care, pedeatric"
       />
       <div className="flex gap-6">
         <InputText
-          name="qualification"
-          value={formData.qualification}
+          name="qualifications"
+          value={formData.qualifications}
           onChange={handleChange}
         />
         <InputText
@@ -77,12 +93,17 @@ const Doctor = () => {
       </div>
       <InputText
         name="hospital"
-        value={formData.hosptial}
+        value={formData.hospital}
         onChange={handleChange}
       />
       <InputText
         name="education"
         value={formData.education}
+        onChange={handleChange}
+      />
+      <InputText
+        name="license"
+        value={formData.license}
         onChange={handleChange}
       />
       <button className="w-[70%] mt-14 mx-auto py-2 text-white text-xl font-semibold tracking-wider bg-blue rounded-lg hover:bg-indigo-600">

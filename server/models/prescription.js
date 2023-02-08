@@ -2,12 +2,10 @@ const mongoose = require('mongoose')
 
 const prescriptionSchema = new mongoose.Schema({
   patient: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Patient',
+    type: Object,
   },
   doctor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Doctor',
+    type: Object,
   },
   date: {
     type: Date,

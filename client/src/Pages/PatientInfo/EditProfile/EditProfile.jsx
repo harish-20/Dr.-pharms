@@ -1,42 +1,22 @@
 import React from 'react'
 import { useState } from 'react'
+import { editPatient } from '../../../API/patient'
 import InputText from '../../../components/InputText/InputText'
-
-const patientInfo = {
-  _id: '63d3f7fa484816213f6e3eb0',
-
-  name: 'John Doe',
-  image:
-    'https://img.freepik.com/free-photo/close-up-confident-male-employee-white-collar-shirt-smiling-camera-standing-self-assured-against-studio-background_1258-26761.jpg?w=360',
-  email: 'johndoe@example.com',
-  password: 'passwo',
-  contact: '555-555-5555',
-  age: 30,
-  gender: 'Male',
-  bloodType: 'O-',
-  allergies: ['penicillin', 'bees'],
-  medicalHistory: ['asthma', 'broken arm'],
-  prescriptions: ['prescription1', 'prescription2'],
-  insurance: 'Example Insurance',
-  height: 180,
-  weight: 80,
-  __v: 0,
-}
 
 const EditProfile = (props) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    name: props.patient.name,
+    email: props.patient.email,
     password: '',
-    contact: '',
-    age: '',
-    gender: '',
-    bloodType: '',
-    allergies: '',
-    medicalHistory: '',
-    insurance: '',
-    height: '',
-    weight: '',
+    contact: props.patient.contact,
+    age: props.patient.age.toString() || '',
+    gender: props.patient.gender,
+    bloodType: props.patient.bloodType,
+    allergies: props.patient.allergies.join(', '),
+    medicalHistory: props.patient.medicalHistory.join(', '),
+    insurance: props.patient.insurance || '',
+    height: props.patient.height.toString() || '',
+    weight: props.patient.weight.toString() || '',
   })
 
   const updateInput = (event) => {
@@ -46,8 +26,26 @@ const EditProfile = (props) => {
     }))
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
+
+    const updatedFormData = {
+      ...props.patient,
+      ...formData,
+      allergies: formData.allergies.split(',').map((text) => text.trim()),
+      medicalHistory: formData.medicalHistory
+        .split(',')
+        .map((text) => text.trim()),
+    }
+
+    const result = await editPatient(updatedFormData)
+
+    if (result) {
+      alert('Updated succefully')
+      props.onCancel()
+    } else {
+      alert('Enter valid details')
+    }
   }
   return (
     <form className="w-3/5" onSubmit={handleSubmit}>

@@ -44,6 +44,12 @@ const doctorSchema = new Schema({
   education: {
     type: String,
   },
+  license: {
+    type: String,
+  },
+  bio: {
+    type: String,
+  },
 })
 
 module.exports = mongoose.model('Doctor', doctorSchema)

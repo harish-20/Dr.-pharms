@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 import InputText from '../../../components/InputText/InputText'
+import { login } from '../../../redux/slices/currentUser'
 
 const Login = (props) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
+
+  const currentUser = useSelector((state) => state)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -14,8 +22,8 @@ const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(props.type)
-    // Submit formData to your server here
+    dispatch(login({ type: props.userType, credentials: formData, navigate }))
+    console.log(currentUser)
   }
 
   return (
