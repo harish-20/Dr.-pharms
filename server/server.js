@@ -11,6 +11,10 @@ const { connectSocket } = require('./socket')
 const router = require('./routes/index')
 
 const app = express()
+
+const server = http.Server(app)
+connectSocket(server)
+
 app.use(express.json())
 app.use(
   cors({
@@ -23,9 +27,6 @@ app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-const server = http.createServer(app)
-connectSocket(server)
-
 const { PORT, MONGODBURI } = process.env
 mongoose.set('strictQuery', true)
 mongoose.connect(MONGODBURI, () => {
@@ -34,6 +35,8 @@ mongoose.connect(MONGODBURI, () => {
 
 app.use('/', router)
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running at port=> ${PORT}...`)
 })
+
+module.exports = server

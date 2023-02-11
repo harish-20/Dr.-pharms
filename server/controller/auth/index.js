@@ -1,3 +1,4 @@
+const Admin = require('../../models/admin')
 const Doctor = require('../../models/doctor')
 const Patient = require('../../models/patient')
 
@@ -40,7 +41,12 @@ const adminSignin = async (req, res) => {
     const { email, password } = req.body
     const isVerified = email === 'admin@gmail.com' && password === 'admin'
 
-    res.status(200).send({ isVerified })
+    if (isVerified) {
+      const admin = await Admin.find({ username: 'admin' })
+      res.status(200).send(admin)
+    } else {
+      res.status(400).send(isVerified)
+    }
   } catch (error) {
     res.status(400).send(error.message)
   }

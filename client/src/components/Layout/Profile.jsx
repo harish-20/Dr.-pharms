@@ -14,8 +14,13 @@ const Profile = (props) => {
   }
 
   const handleNavigation = () => {
-    navigate(`${currentUser.userType}s/${currentUser.user._id}`)
+    if (currentUser.userType === 'admin') {
+      navigate('/admin')
+    } else {
+      navigate(`${currentUser.userType}s/${currentUser.user._id}`)
+    }
   }
+
   return (
     <div
       className="flex items-center cursor-pointer"

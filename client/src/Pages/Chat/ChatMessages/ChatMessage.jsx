@@ -1,4 +1,5 @@
 import React from 'react'
+import { EyeIcon } from '../../../components/Icons/icons'
 
 const ChatMessage = (props) => {
   function convertToAMPM(date) {
@@ -14,15 +15,17 @@ const ChatMessage = (props) => {
 
   return (
     <div
-      className={`bg-white w-fit mx-4 my-2 p-4 rounded-lg shadow-xl ${
+      className={`bg-white min-w-[150px] mx-4 my-2 p-4 rounded-lg shadow-xl ${
         props.currentId === props.message.receiverId
-          ? 'slef-start rounded-bl-none'
-          : 'self-end rounded-br-none'
+          ? 'self-end rounded-br-none'
+          : 'self-start rounded-bl-none'
       }`}
     >
-      <h1>{props.message.text}</h1>
-      <p className="text-right text-slate-500 text-xs font-bold">
+      <h1 className="py-2">{props.message.text}</h1>
+      <p className="text-right text-slate-500 text-xs font-bold flex justify-between">
         {convertToAMPM(new Date(props.message.createdAt))}
+        {props.message.isRead &&
+          props.message.receiverId === props.currentId && <EyeIcon />}
       </p>
     </div>
   )

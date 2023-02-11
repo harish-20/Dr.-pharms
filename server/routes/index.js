@@ -1,6 +1,8 @@
 const router = require('express').Router()
 
 const authRoute = require('./authRoute')
+
+const adminRouter = require('./adminRoute')
 const doctorsRoute = require('./doctorsRoute')
 const patientsRoute = require('./patient')
 const prescriptionRoute = require('./prescriptionRoute')
@@ -10,6 +12,7 @@ const doctorsFileRoute = require('../files/doctors')
 const patientFileRoute = require('../files/patients')
 
 router.use('/auth', authRoute)
+router.use('/admin', adminRouter)
 router.use('/doctors', doctorsRoute)
 router.use('/patients', patientsRoute)
 router.use('/prescriptions', prescriptionRoute)

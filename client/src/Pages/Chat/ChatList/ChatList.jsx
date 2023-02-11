@@ -10,6 +10,7 @@ const ChatList = (props) => {
       {props.conversationsWith.map((conversation) => (
         <ChatUser
           {...conversation}
+          currentChat={props.currentChat}
           setCurrentChat={props.setCurrentChat}
           key={conversation.user._id}
         />

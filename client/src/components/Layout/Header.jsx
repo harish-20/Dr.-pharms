@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { currentUserActions } from '../../redux/slices/currentUser'
 import CTA from '../CTA/CTA'
 import Logo from '../Logo/Logo'
@@ -8,15 +8,16 @@ import Profile from './Profile'
 
 const Header = () => {
   const dispatch = useDispatch()
-  const currentUser = useSelector((state) => state.currentUser)
+  const navigate = useNavigate()
 
-  const chats = 0
+  const currentUser = useSelector((state) => state.currentUser)
 
   const handleLogout = () => {
     const confirm = window.confirm('Do you want to log out?')
     if (confirm) {
       dispatch(currentUserActions.resetUser())
     }
+    navigate('/')
   }
 
   const getClass = ({ isActive }) =>
@@ -38,7 +39,7 @@ const Header = () => {
           Tablets
         </NavLink>
         <NavLink className={getClass} to="/chats">
-          Chats(<span>{chats}</span>)
+          Chats
         </NavLink>
       </div>
       {currentUser.isLoggedIn ? (

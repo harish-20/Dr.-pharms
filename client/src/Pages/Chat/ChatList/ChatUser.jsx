@@ -1,6 +1,8 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const ChatUser = (props) => {
+  const currentUser = useSelector((state) => state.currentUser)
   function convertToAMPM(date) {
     let hours = date.getHours()
     let minutes = date.getMinutes()
@@ -21,8 +23,16 @@ const ChatUser = (props) => {
     >
       <h1 className="text-lg mb-2">{props.user.name}</h1>
       <div className="flex align-baseline justify-between">
-        <p className="whitespace-nowrap overflow-hidden overflow-ellipsis">
-          {props.lastMessage}
+        <p
+          className={`whitespace-nowrap overflow-hidden overflow-ellipsis ${
+            !props.lastMessage.isRead &&
+            props.lastMessage.senderId !== currentUser.user._id &&
+            props.lastMessage.senderId !== props.currentChat?._id
+              ? 'font-bold'
+              : ''
+          }`}
+        >
+          {props.lastMessage.text}
         </p>
         <span className="text-xs whitespace-nowrap">
           {convertToAMPM(new Date(props.time))}

@@ -1,9 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { sendMessage } from '../../../API/chat'
+import { socket } from '../../../App'
+
 import ChatMessage from './ChatMessage'
 
 const ChatMessages = (props) => {
   const [message, setMessage] = useState('')
   const messageDiv = useRef()
+  const currentUser = useSelector((state) => state.currentUser)
 
   const scroll = () => {
     if (props.currentChat?._id)
@@ -19,6 +24,19 @@ const ChatMessages = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    const messageInfo = {
+      senderId: currentUser.user._id,
+      receiverId: props.currentChat._id,
+      text: message,
+    }
+
+    const result = sendMessage(messageInfo)
+    if (result) {
+      setMessage('')
+      socket.emit('message-sent')
+    } else {
+      alert('Something went wrong')
+    }
   }
 
   if (!props.currentChat?._id) {

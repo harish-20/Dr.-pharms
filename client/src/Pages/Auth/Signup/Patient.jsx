@@ -38,7 +38,7 @@ const Patient = () => {
 
   return (
     <form
-      className="flex flex-col gap-y-4 w-full px-[5%] pt-10 pb-20 mx-auto my-10 bg-white rounded-3xl md:w-6/12"
+      className="flex flex-col gap-y-4 w-full px-[5%] pt-10 pb-20 mx-auto mt-10 mb-2  bg-white rounded-3xl md:w-6/12"
       onSubmit={handleSubmit}
     >
       <h1 className="text-slate-600 text-3xl text-center font-semibold mb-10">

@@ -1,10 +1,14 @@
-const { Server } = require('socket.io')
+const socket = require('socket.io')
 
 const connectSocket = (server) => {
-  const io = new Server(server)
+  const io = socket(server, { cors: { orgin: 'http://localhost:3000' } })
 
   io.on('connection', (socket) => {
-    console.log(socket.id)
+    socket.on('message-sent', () => {
+      console.log('message is sent')
+      socket.emit('message-received')
+      socket.broadcast.emit('message-received')
+    })
 
     socket.on('disconnect', () => {
       console.log('user disconnected')

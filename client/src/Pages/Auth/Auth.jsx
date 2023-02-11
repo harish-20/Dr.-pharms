@@ -27,7 +27,7 @@ const Auth = () => {
       {allPages[userType]}
 
       {isSignup ? (
-        <p className="text-center my-4">
+        <p className="text-center mb-4">
           Already have an Account{' '}
           <span
             className="text-blue underline cursor-pointer"
@@ -37,7 +37,7 @@ const Auth = () => {
           </span>
         </p>
       ) : (
-        <p className="text-center my-4">
+        <p className="text-center mb-4">
           Don't have an Account{' '}
           <span
             className="text-blue underline cursor-pointer"

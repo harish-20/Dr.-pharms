@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { io } from 'socket.io-client'
 
 import Layout from './components/Layout/Layout'
 
@@ -11,9 +12,13 @@ import PatientInfo from './Pages/PatientInfo/PatientInfo'
 import Chat from './Pages/Chat/Chat'
 import { useDispatch } from 'react-redux'
 import { currentUserActions } from './redux/slices/currentUser'
+import Admin from './Pages/Admin/Admin'
+
+export const socket = io('http://localhost:8080')
 
 function App() {
   const dispatch = useDispatch()
+
   useEffect(() => {
     const existingUser = localStorage.getItem('user')
 
@@ -21,10 +26,21 @@ function App() {
       dispatch(currentUserActions.setUser(JSON.parse(existingUser)))
     }
   }, [])
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('connected')
+    })
+    return () => {
+      socket.disconnect()
+      socket.off()
+    }
+  }, [])
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/doctors/:id" element={<DoctorInfo />} />
         <Route path="/patients/:id" element={<PatientInfo />} />

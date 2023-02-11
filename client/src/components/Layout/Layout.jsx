@@ -5,7 +5,7 @@ import Header from './Header'
 const Layout = (props) => {
   return (
     <>
-      <Header />
+      <Header unReadMessages={props.unReadMessages} />
       {props.children}
       <Footer />
     </>

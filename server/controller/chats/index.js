@@ -64,7 +64,21 @@ const addChat = async (req, res) => {
   }
 }
 
+const markAsReadChat = async (req, res) => {
+  try {
+    const result = await Chat.updateMany(
+      { receiverId: req.body.receiverId, senderId: req.body.senderId },
+      { $set: { isRead: true } },
+    )
+
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
+
 module.exports = {
   getChat,
   addChat,
+  markAsReadChat,
 }

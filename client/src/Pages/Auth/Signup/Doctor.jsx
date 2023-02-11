@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { doctorSignup } from '../../../API/doctor'
+
+import { addDoctorToRequestList } from '../../../API/admin'
+
 import InputText from '../../../components/InputText/InputText'
 
 const Doctor = () => {
@@ -34,8 +36,8 @@ const Doctor = () => {
       specialties: formData.specialties.split(',').map((text) => text.trim()),
     }
     console.log(updatedFormData)
-    const result = await doctorSignup(updatedFormData)
-    alert('Id has been created login now')
+    const result = await addDoctorToRequestList(updatedFormData)
+    alert('Request has been sent to admin you can login after verification.')
     if (result) {
       navigate('/')
     }
@@ -43,7 +45,7 @@ const Doctor = () => {
 
   return (
     <form
-      className="flex flex-col gap-y-4 w-full px-[5%] pt-10 pb-20 mx-auto my-10 bg-white rounded-3xl md:w-6/12"
+      className="flex flex-col gap-y-4 w-full px-[5%] pt-10 pb-20 mx-auto mt-10 mb-2 bg-white rounded-3xl md:w-6/12"
       onSubmit={handleSubmit}
     >
       <h1 className="text-slate-600 text-3xl text-center font-semibold mb-10">
