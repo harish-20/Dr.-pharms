@@ -20,19 +20,21 @@ const Profile = (props) => {
   return (
     <div className="flex flex-col items-center gap-y-4">
       <img className="w-2/5 my-14" src={props.image} alt="profile" />
-      {!props.isRequest && !isChangeProfilePicture && (
-        <button
-          className="py-2 px-10 text-blue font-bold border-2 border-blue rounded-lg duration-300 hover:bg-blue hover:text-white"
-          onClick={() => setIsChangeProfilePicture(true)}
-        >
-          Upload profile pic
-        </button>
-      )}
+      {!props.isRequest &&
+        !isChangeProfilePicture &&
+        props._id === currentUser.user._id && (
+          <button
+            className="py-2 px-10 text-blue font-bold border-2 border-blue rounded-lg duration-300 hover:bg-blue hover:text-white"
+            onClick={() => setIsChangeProfilePicture(true)}
+          >
+            Upload profile pic
+          </button>
+        )}
       {isChangeProfilePicture && (
         <PictureUpload onClose={() => setIsChangeProfilePicture(false)} />
       )}
 
-      {!props.isRequest && currentUser.user.userType === 'patient' && (
+      {!props.isRequest && currentUser.userType === 'patient' && (
         <button
           className="py-2 px-10 text-blue font-bold border-2 border-blue rounded-lg duration-300 hover:bg-blue hover:text-white"
           onClick={handleSendMessage}

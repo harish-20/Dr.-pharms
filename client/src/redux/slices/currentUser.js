@@ -51,7 +51,6 @@ const currentUser = createSlice({
   },
   extraReducers: {
     [login.fulfilled]: (state, action) => {
-      console.log('user', action)
       state = action.payload
       return state
     },

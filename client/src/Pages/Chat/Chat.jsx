@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { getMessages, markAsRead } from '../../API/chat'
 import { socket } from '../../App'
 import BigText from '../../components/BigText/BigText'
+import { chatActions } from '../../redux/slices/chatMessages'
 import ChatList from './ChatList/ChatList'
 import ChatMessages from './ChatMessages/ChatMessages'
 
 const Chat = () => {
+  const dispatch = useDispatch()
+
   const currentUser = useSelector((state) => state.currentUser)
 
   const [currentChat, setCurrentChat] = useState(null)
@@ -16,6 +19,18 @@ const Chat = () => {
   const fetchMessages = async () => {
     const messages = await getMessages(currentUser.user?._id)
     setConversations(messages)
+
+    const noOfUnreadedMessages = messages.reduce((acc, message) => {
+      const lastMessage = message.messages[message.messages.length - 1]
+      if (
+        !lastMessage.isRead &&
+        lastMessage.senderId !== currentUser.user._id
+      ) {
+        return acc + 1
+      }
+      return acc
+    }, 0)
+    dispatch(chatActions.setChat(noOfUnreadedMessages))
   }
 
   useEffect(() => {

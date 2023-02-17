@@ -11,6 +11,9 @@ const Header = () => {
   const navigate = useNavigate()
 
   const currentUser = useSelector((state) => state.currentUser)
+  const noOfUnreadedMessages = useSelector(
+    (state) => state.chat.noOfUnreadedMessage,
+  )
 
   const handleLogout = () => {
     const confirm = window.confirm('Do you want to log out?')
@@ -38,8 +41,11 @@ const Header = () => {
         <NavLink className={getClass} to="/tablets">
           Tablets
         </NavLink>
-        <NavLink className={getClass} to="/chats">
+        <NavLink className={getClass + ' relative'} to="/chats">
           Chats
+          <span className="absolute -top-2 -right-4 h-5 w-5 text-center flex justify-center items-center text-sm font-bold text-white bg-blue rounded-full">
+            {noOfUnreadedMessages}
+          </span>
         </NavLink>
       </div>
       {currentUser.isLoggedIn ? (

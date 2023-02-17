@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose')
 const Prescription = require('../../models/prescription')
 
 const getAllPrescriptions = async (req, res) => {
@@ -11,9 +12,13 @@ const getAllPrescriptions = async (req, res) => {
 
 const getPrescription = async (req, res) => {
   try {
-    const prescription = await Prescription.find({ patient: req.params.id })
+    const prescription = await Prescription.find({})
 
-    res.status(200).send(prescription)
+    const filteredPrescription = prescription.filter(
+      (pres) => pres.patient?._id === req.params.id,
+    )
+
+    res.status(200).send(filteredPrescription)
   } catch (err) {
     res.status(400).send({ message: err.message })
   }

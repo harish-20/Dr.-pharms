@@ -17,13 +17,11 @@ const Login = (props) => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
-    console.log(formData)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(login({ type: props.userType, credentials: formData, navigate }))
-    console.log(currentUser)
   }
 
   return (

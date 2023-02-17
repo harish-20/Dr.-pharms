@@ -26,7 +26,6 @@ const Doctor = () => {
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
-    console.log(formData)
   }
 
   const handleSubmit = async (event) => {
@@ -35,7 +34,7 @@ const Doctor = () => {
       ...formData,
       specialties: formData.specialties.split(',').map((text) => text.trim()),
     }
-    console.log(updatedFormData)
+
     const result = await addDoctorToRequestList(updatedFormData)
     alert('Request has been sent to admin you can login after verification.')
     if (result) {

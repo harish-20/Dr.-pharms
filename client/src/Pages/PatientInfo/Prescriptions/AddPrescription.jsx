@@ -51,8 +51,8 @@ const AddPrescription = (props) => {
       patient: props.patient,
       medications,
     }
+
     const result = addPrescription(updatedFormData)
-    console.log(result)
     if (result) {
       alert('Prescription added')
       navigate('/')

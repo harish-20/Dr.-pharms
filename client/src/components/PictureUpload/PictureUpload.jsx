@@ -24,7 +24,7 @@ function PictureUpload(props) {
         formData,
       )
       alert('successfully uploaded')
-      console.log(res)
+
       props.onClose()
     } catch (err) {
       console.log(err)

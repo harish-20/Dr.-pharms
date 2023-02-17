@@ -13,6 +13,8 @@ import Chat from './Pages/Chat/Chat'
 import { useDispatch } from 'react-redux'
 import { currentUserActions } from './redux/slices/currentUser'
 import Admin from './Pages/Admin/Admin'
+import { getMessages } from './API/chat'
+import { chatActions } from './redux/slices/chatMessages'
 
 export const socket = io('http://localhost:8080')
 
@@ -23,7 +25,22 @@ function App() {
     const existingUser = localStorage.getItem('user')
 
     if (existingUser) {
-      dispatch(currentUserActions.setUser(JSON.parse(existingUser)))
+      const user = JSON.parse(existingUser)
+      dispatch(currentUserActions.setUser(user))
+
+      const fetchMessage = async () => {
+        const messages = await getMessages(user.user._id)
+
+        const noOfUnreadedMessages = messages.reduce((acc, message) => {
+          const lastMessage = message.messages[message.messages.length - 1]
+          if (!lastMessage.isRead && lastMessage.senderId !== user.user._id) {
+            return acc + 1
+          }
+          return acc
+        }, 0)
+        dispatch(chatActions.setChat(noOfUnreadedMessages))
+      }
+      fetchMessage()
     }
   }, [])
 

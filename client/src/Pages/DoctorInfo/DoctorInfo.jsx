@@ -49,7 +49,7 @@ const DoctorInfo = () => {
       <h1 className="py-10 text-blue text-5xl drop-shadow-lg text-center font-semibold">
         Doctor's Profile
       </h1>
-      <Profile {...doctorInfo} switchEdit={switchEdit} />
+      <Profile {...doctorInfo} isRequest={false} switchEdit={switchEdit} />
       <Reviews />
     </section>
   )
