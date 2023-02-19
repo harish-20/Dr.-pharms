@@ -24,7 +24,7 @@ const Header = () => {
   }
 
   const getClass = ({ isActive }) =>
-    `hover:text-blue ${isActive ? 'text-blue' : ''}`
+    `hover:text-blue relative ${isActive ? 'text-blue' : ''} `
 
   return (
     <nav className="flex items-center bg-white justify-around h-20 shadow-lg">
@@ -41,7 +41,7 @@ const Header = () => {
         <NavLink className={getClass} to="/tablets">
           Tablets
         </NavLink>
-        <NavLink className={getClass + ' relative'} to="/chats">
+        <NavLink className={getClass} to="/chats">
           Chats
           <span className="absolute -top-2 -right-4 h-5 w-5 text-center flex justify-center items-center text-sm font-bold text-white bg-blue rounded-full">
             {noOfUnreadedMessages}

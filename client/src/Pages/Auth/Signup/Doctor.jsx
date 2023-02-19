@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { addDoctorToRequestList } from '../../../API/admin'
@@ -13,7 +12,7 @@ const Doctor = () => {
     password: '',
     confirmPassword: '',
     contact: '',
-    specialties: '',
+    specialties: [],
     qualifications: '',
     yearsOfExperience: '',
     hospital: '',
@@ -21,18 +20,38 @@ const Doctor = () => {
     license: '',
   })
 
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
   }
 
+  const handleSpecilities = (event) => {
+    const exisitingSpecilities = [...formData.specialties]
+
+    const existingIndex = exisitingSpecilities.findIndex(
+      (specility) => specility === event.target.value,
+    )
+
+    let updatedSpecilities
+    if (exisitingSpecilities[existingIndex]) {
+      updatedSpecilities = exisitingSpecilities.filter(
+        (specilities, index) => index !== existingIndex,
+      )
+    } else {
+      updatedSpecilities = [...exisitingSpecilities, event.target.value]
+    }
+    setFormData((prev) => ({
+      ...prev,
+      specialties: updatedSpecilities,
+    }))
+    console.log(formData.specialties)
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     const updatedFormData = {
       ...formData,
-      specialties: formData.specialties.split(',').map((text) => text.trim()),
     }
 
     const result = await addDoctorToRequestList(updatedFormData)
@@ -74,12 +93,76 @@ const Doctor = () => {
         value={formData.contact}
         onChange={handleChange}
       />
-      <InputText
-        name="specialties"
-        value={formData.specialties}
-        onChange={handleChange}
-        description="add comma between two specility Eg.skin care, pedeatric"
-      />
+      <div className="flex flex-col my-3">
+        <label
+          htmlFor="specility"
+          className="text-lg capitalize text-slate-600"
+        >
+          Specilites :
+        </label>
+        <div className="grid grid-flow-col grid-rows-3  gap-2 ml-10">
+          <label htmlFor="general">
+            <input
+              type="checkbox"
+              id="general"
+              name="specilites"
+              value="general"
+              onChange={handleSpecilities}
+            />
+            General
+          </label>
+          <label htmlFor="physician">
+            <input
+              type="checkbox"
+              id="physician"
+              name="specilites"
+              value="physician"
+              onChange={handleSpecilities}
+            />
+            Physician
+          </label>
+          <label htmlFor="dietitian">
+            <input
+              type="checkbox"
+              id="dietitian"
+              name="specilites"
+              value="dietitian"
+              onChange={handleSpecilities}
+            />
+            Dietitian
+          </label>
+          <label htmlFor="sports medicine">
+            <input
+              type="checkbox"
+              id="sports medicine"
+              name="specilites"
+              value="sports medicine"
+              onChange={handleSpecilities}
+            />
+            Sports Medicine
+          </label>
+          <label htmlFor="dentist">
+            <input
+              type="checkbox"
+              id="dentist"
+              name="specilites"
+              value="dentist"
+              onChange={handleSpecilities}
+            />
+            Dentist
+          </label>
+          <label htmlFor="dermatogist">
+            <input
+              type="checkbox"
+              id="dermatogist"
+              name="specilites"
+              value="dermatogist"
+              onChange={handleSpecilities}
+            />
+            Dermatogist
+          </label>
+        </div>
+      </div>
       <div className="flex gap-6">
         <InputText
           name="qualifications"

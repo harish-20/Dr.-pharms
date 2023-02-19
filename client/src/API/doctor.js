@@ -1,12 +1,16 @@
 import api from '.'
 
 export const getAllDoctor = async () => {
-  const doctors = await api.get('/doctors/')
+  const doctors = await api
+    .get('/doctors/')
+    .then((res) => res.data)
+    .catch((err) => console.log(err))
   return doctors
 }
 
 export const getDoctor = async (id) => {
   let doctorInfo
+
   await api
     .get('/doctors/' + id)
     .then((res) => {

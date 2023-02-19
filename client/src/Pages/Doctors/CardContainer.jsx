@@ -1,17 +1,14 @@
 import React from 'react'
 
-import CTA from '../../components/CTA/CTA'
 import SubHeading from '../../components/SubHeading/SubHeading'
 
 const CardContainer = (props) => (
-  <>
-    <div className="flex justify-between items-center">
-      <SubHeading>{props.heading}</SubHeading> <CTA>View all</CTA>
+  <div className="bg-white px-5 py-4 rounded-lg">
+    <div className="flex items-center justify-center capitalize">
+      <SubHeading>{props.heading}</SubHeading>
     </div>
-    <div className="flex gap-x-6 justify-center flex-wrap">
-      {props.children}
-    </div>
-  </>
+    <div className="flex gap-x-6 flex-wrap">{props.children}</div>
+  </div>
 )
 
 export default CardContainer

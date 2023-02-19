@@ -48,6 +48,30 @@ const EditProfile = (props) => {
     }))
   }
 
+  const handleSpecilities = (event) => {
+    const exisitingSpecilities = [...formData.specialties]
+
+    const existingIndex = exisitingSpecilities.findIndex(
+      (specility) => specility === event.target.value,
+    )
+
+    let updatedSpecilities
+    if (exisitingSpecilities[existingIndex]) {
+      updatedSpecilities = exisitingSpecilities.filter(
+        (specilities, index) => index !== existingIndex,
+      )
+    } else {
+      updatedSpecilities = [...exisitingSpecilities, event.target.value]
+    }
+    setFormData((prev) => ({
+      ...prev,
+      specialties: updatedSpecilities,
+    }))
+    console.log(formData.specialties)
+  }
+
+  const isExistingSpeciality = (value) => formData.specialties.includes(value)
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     const updatedFormData = {
@@ -95,11 +119,82 @@ const EditProfile = (props) => {
           value={formData.contact}
           onChange={updateInput}
         />
-        <InputText
-          name="specialties"
-          value={formData.specialties}
-          onChange={updateInput}
-        />
+        <div className="flex flex-col my-3">
+          <label
+            htmlFor="specility"
+            className="text-lg capitalize text-slate-600"
+          >
+            Specilites :
+          </label>
+          <div className="grid grid-flow-col grid-rows-3  gap-2 ml-10">
+            <label htmlFor="general">
+              <input
+                type="checkbox"
+                id="general"
+                name="specilites"
+                value="general"
+                onChange={handleSpecilities}
+                checked={isExistingSpeciality('general')}
+              />
+              General
+            </label>
+            <label htmlFor="physician">
+              <input
+                type="checkbox"
+                id="physician"
+                name="specilites"
+                value="physician"
+                onChange={handleSpecilities}
+                checked={isExistingSpeciality('physician')}
+              />
+              Physician
+            </label>
+            <label htmlFor="dietitian">
+              <input
+                type="checkbox"
+                id="dietitian"
+                name="specilites"
+                value="dietitian"
+                onChange={handleSpecilities}
+                checked={isExistingSpeciality('dietitian')}
+              />
+              Dietitian
+            </label>
+            <label htmlFor="sports medicine">
+              <input
+                type="checkbox"
+                id="sports medicine"
+                name="specilites"
+                value="sports medicine"
+                onChange={handleSpecilities}
+                checked={isExistingSpeciality('sports medicine')}
+              />
+              Sports Medicine
+            </label>
+            <label htmlFor="dentist">
+              <input
+                type="checkbox"
+                id="dentist"
+                name="specilites"
+                value="dentist"
+                onChange={handleSpecilities}
+                checked={isExistingSpeciality('dentist')}
+              />
+              Dentist
+            </label>
+            <label htmlFor="dermatogist">
+              <input
+                type="checkbox"
+                id="dermatogist"
+                name="specilites"
+                value="dermatogist"
+                onChange={handleSpecilities}
+                checked={isExistingSpeciality('dermatogist')}
+              />
+              dermatogist
+            </label>
+          </div>
+        </div>
         <InputText
           name="qualifications"
           value={formData.qualifications}
