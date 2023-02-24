@@ -34,19 +34,27 @@ const Header = () => {
         placeholder="Find doctors, tablets, more..."
         type="text"
       />
-      <div className="nav flex w-[300px] justify-between">
-        <NavLink className={getClass} to="/doctors">
-          Doctors
-        </NavLink>
-        <NavLink className={getClass} to="/tablets">
-          Tablets
-        </NavLink>
-        <NavLink className={getClass} to="/chats">
-          Chats
-          <span className="absolute -top-2 -right-4 h-5 w-5 text-center flex justify-center items-center text-sm font-bold text-white bg-blue rounded-full">
-            {noOfUnreadedMessages}
-          </span>
-        </NavLink>
+      <div className="nav flex w-[300px] items-end justify-end gap-8">
+        {(currentUser.userType === 'patient' ||
+          currentUser.userType === 'admin') && (
+          <NavLink className={getClass} to="/doctors">
+            Doctors
+          </NavLink>
+        )}
+        {false && (
+          <NavLink className={getClass} to="/tablets">
+            Tablets
+          </NavLink>
+        )}
+        {(currentUser.userType === 'doctor' ||
+          currentUser.userType === 'patient') && (
+          <NavLink className={getClass} to="/chats">
+            Chats
+            <span className="absolute -top-2 -right-4 h-5 w-5 text-center flex justify-center items-center text-sm font-bold text-white bg-blue rounded-full">
+              {noOfUnreadedMessages}
+            </span>
+          </NavLink>
+        )}
       </div>
       {currentUser.isLoggedIn ? (
         <>

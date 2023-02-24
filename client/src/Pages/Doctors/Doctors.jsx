@@ -45,7 +45,7 @@ const Doctors = () => {
   return (
     <section className="container md:w-[80vw] mx-auto mt-10">
       <CardContainer heading="Most Rated Doctor">
-        {doctorsList.slice(0, 4).map((doc) => (
+        {doctorsList.slice(doctorsList.length - 4).map((doc) => (
           <Card key={doc.name} {...doc} />
         ))}
       </CardContainer>

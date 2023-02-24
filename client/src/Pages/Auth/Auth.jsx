@@ -43,7 +43,7 @@ const Auth = () => {
             className="text-blue underline cursor-pointer"
             onClick={() => {
               setIsSignup(true)
-              setUserType('patient')
+              setUserType((prev) => (prev === 'admin' ? 'patient' : prev))
             }}
           >
             Sign up

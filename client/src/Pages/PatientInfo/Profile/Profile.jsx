@@ -13,7 +13,13 @@ const Profile = (props) => {
       <h2 className="py-10 text-blue text-5xl drop-shadow-lg text-center font-semibold">
         Patient's Profile
       </h2>
-      <img src={props.image} alt="profile" />
+      <img
+        src={
+          props.image ||
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+        }
+        alt="profile"
+      />
       {!isChangeProfilePicture && isCurrentUser && (
         <button
           className="px-10 py-2 mt-5 border-blue border-2 rounded-lg duration-300 hover:bg-blue hover:text-white"

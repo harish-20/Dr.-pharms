@@ -19,7 +19,14 @@ const Profile = (props) => {
   }
   return (
     <div className="flex flex-col items-center gap-y-4">
-      <img className="w-2/5 my-14" src={props.image} alt="profile" />
+      <img
+        className="w-2/5 my-14"
+        src={
+          props.image ||
+          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+        }
+        alt="profile"
+      />
       {!props.isRequest &&
         !isChangeProfilePicture &&
         props._id === currentUser.user._id && (

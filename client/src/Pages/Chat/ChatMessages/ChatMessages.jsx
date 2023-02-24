@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { sendMessage } from '../../../API/chat'
 import { socket } from '../../../App'
 
@@ -49,9 +50,20 @@ const ChatMessages = (props) => {
 
   return (
     <div className="w-8/12 flex flex-col  bg-slate-50 rounded-lg">
-      <h1 className="py-5 text-2xl bg-white shadow-sm">
-        {props.currentChat.name}
-      </h1>
+      <div className="pl-3 py-5 text-2xl bg-white shadow-sm">
+        <Link
+          to={`/${props.currentChat.specialties ? 'doctors' : 'patients'}/${
+            props.currentChat._id
+          }`}
+        >
+          {props.currentChat.name}
+        </Link>
+        {props.currentChat.specialties && (
+          <p className="text-sm font-bold mt-3">
+            {props.currentChat.specialties.join(', ')}
+          </p>
+        )}
+      </div>
       <div
         ref={messageDiv}
         className="flex flex-col h-[60vh] relative overflow-y-auto scroll-smooth"
